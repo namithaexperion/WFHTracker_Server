@@ -1,10 +1,13 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using WFHTracker.Entities;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WFHTracker_Server.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("api/wfh")]
+[Authorize]
 public class WFHController : ControllerBase
 {
     private readonly ILogger<WFHController> _logger;
@@ -31,7 +34,7 @@ public class WFHController : ControllerBase
             return BadRequest("FromDate cannot be greater than ToDate.");
         }
 
-        var wfh = new WFH
+        var wfh = new WFHRequests
         {
             FromDate = request.FromDate,
             ToDate = request.ToDate,
@@ -75,24 +78,22 @@ public class WFHController : ControllerBase
     [HttpPut("reject/{id}")]
     public async Task<IActionResult> RejectWFHRequest(int id)
     {
-    var request = await _context.WFHRequests.FindAsync(id);
+    // var request = await _context.WFHRequests.FindAsync(id);
 
-    if (request == null)
-    {
-        return NotFound($"WFH request with Id {id} not found.");
-    }
+    // if (request == null)
+    // {
+    //     return NotFound($"WFH request with Id {id} not found.");
+    // }
 
-    request.Status = "Rejected";
+    // request.Status = "Rejected";
 
-    await _context.SaveChangesAsync();
+    // await _context.SaveChangesAsync();
 
-    await _emailService.SendRejectioEmail();
+    await _emailService.SendHRApprovalEmail();
 
     return Ok(new
     {
-        Message = "WFH request rejected successfully.",
-        RequestId = request.Id,
-        Status = request.Status
+        Message = "WFH request rejected successfully."
     });
 }
 
@@ -116,7 +117,7 @@ public async Task<IActionResult> GetPendingApprovals(string email)
             (x.HRMailId == email &&
              x.Status == "Pending-HR-Approval")
         )
-        .OrderByDescending(x => x.Id)
+        .OrderByDescending(x => x.EmployeeMailId)
         .ToListAsync();
 
     if (!requests.Any())
@@ -185,7 +186,7 @@ public async Task<IActionResult> ManagerApproveWFHRequest(
     return Ok(new
     {
         Message = "WFH request approved by Manager successfully.",
-        RequestId = wfh.Id,
+        RequestId = wfh.EmployeeMailId,
         NewStatus = wfh.Status
     });
 }

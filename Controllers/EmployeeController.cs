@@ -1,10 +1,13 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WFHTracker_Server.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("api/employee")]
+[Authorize]
+
 public class EmployeeController : ControllerBase
 {
     private readonly ILogger<EmployeeController> _logger;
@@ -33,7 +36,7 @@ public async Task<IActionResult> GetWFHRequestsByEmployee(string employeeMailId)
 
     var requests = await _context.WFHRequests
         .Where(x => x.EmployeeMailId == employeeMailId)
-        .OrderByDescending(x => x.Id)
+        .OrderByDescending(x => x.EmployeeMailId)
         .ToListAsync();
 
     if (!requests.Any())

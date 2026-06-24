@@ -99,14 +99,17 @@ public class EmailService
                 _configuration["EmailSettings:FromEmailAddress"]));
 
         message.To.Add(
-            MailboxAddress.Parse("namitha.augustine@experionglobal.com"));
+            MailboxAddress.Parse("alan.jose@experionglobal.com"));
 
-        message.Subject = "HR Approval";
+        message.Subject = "Manager Approval";
 
         message.Body = new TextPart("plain")
         {
             Text = $@"
-                    Please find details of the wfh request in below link.
+                    Hi Alan,
+
+                    Please find details of the wfh request of your employee in below link.
+                    http://localhost:5173/approvals/1
 
 
                     Regards,
@@ -139,14 +142,16 @@ public class EmailService
                 _configuration["EmailSettings:FromEmailAddress"]));
 
         message.To.Add(
-            MailboxAddress.Parse("namitha.augustine@experionglobal.com"));
+            MailboxAddress.Parse("alan.jose@experionglobal.com"));
 
-        message.Subject = "WFH Rejection";
+        message.Subject = "WFH Approval";
 
         message.Body = new TextPart("plain")
         {
             Text = $@"
-                    Your WFH request is Rejected.
+                    Hi Alan,
+
+                    Your WFH request is Approved.
 
 
                     Regards,

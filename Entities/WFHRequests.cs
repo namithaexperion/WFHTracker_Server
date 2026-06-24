@@ -1,8 +1,12 @@
-namespace WFHTracker_Server;
+using System.ComponentModel.DataAnnotations;
+namespace WFHTracker.Entities;
 
-public class WFH
+public class WFHRequests:BaseEntity
 {
-    public int Id { get; set; }
+    [Key]
+    public long WFHRequestId { get; set; }
+    [Required]
+    [StringLength(50)]
 
     public string EmployeeMailId { get; set; } = string.Empty;
 

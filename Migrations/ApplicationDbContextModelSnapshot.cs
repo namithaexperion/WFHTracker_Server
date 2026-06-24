@@ -21,22 +21,192 @@ namespace WFHTracker_Server.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("WFHTracker_Server.WFH", b =>
+            modelBuilder.Entity("WFHTracker.Entities.AccessRoles", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("AccessRoleId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("AccessRoleId"), 1L, 1);
+
+                    b.Property<long>("CreatedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("RoleName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<long?>("UpdatedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("AccessRoleId");
+
+                    b.ToTable("AccessRoles");
+                });
+
+            modelBuilder.Entity("WFHTracker.Entities.PrivilegeRoles", b =>
+                {
+                    b.Property<long>("PrivilegeRoleId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("PrivilegeRoleId"), 1L, 1);
+
+                    b.Property<long>("AccessRoleId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("CreatedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long>("PrivilegeId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("UpdatedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("PrivilegeRoleId");
+
+                    b.HasIndex("AccessRoleId");
+
+                    b.HasIndex("PrivilegeId");
+
+                    b.ToTable("PrivilegeRoles");
+                });
+
+            modelBuilder.Entity("WFHTracker.Entities.Privileges", b =>
+                {
+                    b.Property<long>("PrivilegeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("PrivilegeId"), 1L, 1);
+
+                    b.Property<long>("CreatedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("PrivilegeKey")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("PrivilegeName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<long?>("UpdatedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("PrivilegeId");
+
+                    b.ToTable("Privileges");
+                });
+
+            modelBuilder.Entity("WFHTracker.Entities.Resources", b =>
+                {
+                    b.Property<long>("ResourceId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("ResourceId"), 1L, 1);
+
+                    b.Property<long>("CreatedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("EmailId")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<long?>("UpdatedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("ResourceId");
+
+                    b.ToTable("Resources");
+                });
+
+            modelBuilder.Entity("WFHTracker.Entities.UserRoles", b =>
+                {
+                    b.Property<long>("UserRoleId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("UserRoleId"), 1L, 1);
+
+                    b.Property<long>("AccessRoleId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("CreatedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long>("ResourceId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("UpdatedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("UserRoleId");
+
+                    b.HasIndex("AccessRoleId");
+
+                    b.HasIndex("ResourceId");
+
+                    b.ToTable("UserRoles");
+                });
+
+            modelBuilder.Entity("WFHTracker.Entities.WFHRequests", b =>
+                {
+                    b.Property<long>("WFHRequestId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("WFHRequestId"), 1L, 1);
 
                     b.Property<string>("BHRComment")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("BPHRId")
-                        .HasColumnType("int");
+                    b.Property<long>("CreatedBy")
+                        .HasColumnType("bigint");
 
-                    b.Property<int>("EmployeeId")
-                        .HasColumnType("int");
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("EmployeeMailId")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<int?>("FrequencyDays")
                         .HasColumnType("int");
@@ -50,14 +220,20 @@ namespace WFHTracker_Server.Migrations
                     b.Property<string>("GMComment")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("GMId")
-                        .HasColumnType("int");
+                    b.Property<string>("GMMailId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("HRMailId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ManagerComment")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ManagerId")
-                        .HasColumnType("int");
+                    b.Property<string>("ManagerMailId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Reason")
                         .IsRequired()
@@ -73,9 +249,53 @@ namespace WFHTracker_Server.Migrations
                     b.Property<DateTime>("ToDate")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("Id");
+                    b.Property<long?>("UpdatedBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("WFHRequestId");
 
                     b.ToTable("WFHRequests");
+                });
+
+            modelBuilder.Entity("WFHTracker.Entities.PrivilegeRoles", b =>
+                {
+                    b.HasOne("WFHTracker.Entities.AccessRoles", "Role")
+                        .WithMany()
+                        .HasForeignKey("AccessRoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WFHTracker.Entities.Privileges", "Privilege")
+                        .WithMany()
+                        .HasForeignKey("PrivilegeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Privilege");
+
+                    b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("WFHTracker.Entities.UserRoles", b =>
+                {
+                    b.HasOne("WFHTracker.Entities.AccessRoles", "Role")
+                        .WithMany()
+                        .HasForeignKey("AccessRoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WFHTracker.Entities.Resources", "Resource")
+                        .WithMany()
+                        .HasForeignKey("ResourceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Resource");
+
+                    b.Navigation("Role");
                 });
 #pragma warning restore 612, 618
         }
